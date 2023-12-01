@@ -1,0 +1,20 @@
+mat-form-field {
+  margin: 0 10px;
+}
+
+button.mdc-button {
+  align-self: flex-start;
+  margin: 20px 10px;
+  padding: 25px 30px;
+}
+
+form {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+mat-hint {
+  font-weight: 600;
+  color: #666;
+}

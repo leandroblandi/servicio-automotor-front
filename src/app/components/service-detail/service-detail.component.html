@@ -1,0 +1,71 @@
+<mat-card>
+  <mat-card-header
+    ><mat-card-title>Turnos cargados en la Base de Datos</mat-card-title>
+
+    <mat-card-subtitle>
+      Los siguientes turnos ya fueron completados y forman parte del historial
+      de servicios</mat-card-subtitle
+    >
+  </mat-card-header>
+  <mat-card-content>
+    <table
+      mat-table
+      [dataSource]="bookings"
+      class="mat-elevation-z8"
+      *ngIf="bookings.length > 0"
+    >
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>#</th>
+        <td mat-cell *matCellDef="let booking">{{ booking.bookingId }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="time">
+        <th mat-header-cell *matHeaderCellDef>Fecha</th>
+        <td mat-cell *matCellDef="let booking">{{ booking.time }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="workService">
+        <th mat-header-cell *matHeaderCellDef>Servicio</th>
+        <td mat-cell *matCellDef="let booking">
+          <p *ngFor="let workService of booking.workService">
+            {{
+              workService.serviceDetail.serviceName +
+                " ($" +
+                workService.serviceDetail.servicePrice +
+                ")"
+            }}
+          </p>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="customer">
+        <th mat-header-cell *matHeaderCellDef>Cliente</th>
+        <td mat-cell *matCellDef="let booking">
+          <p>
+            {{
+              booking.customer.firstName +
+                " " +
+                booking.customer.lastName +
+                " (Premium: " +
+                (booking.customer.premium ? "Si" : "No") +
+                ")"
+            }}
+          </p>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="vehicle">
+        <th mat-header-cell *matHeaderCellDef>Patente</th>
+        <td mat-cell *matCellDef="let booking">
+          {{ booking.vehicle.vehiclePlate }}
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+    <mat-card-subtitle *ngIf="bookings.length <= 0">
+      <mat-icon>error</mat-icon>
+      <span>No hay ningún turno completado aún</span></mat-card-subtitle
+    >
+  </mat-card-content>
+</mat-card>

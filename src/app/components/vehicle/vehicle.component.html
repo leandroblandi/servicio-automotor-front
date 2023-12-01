@@ -1,0 +1,94 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Asignar un vehículo a un cliente</mat-card-title>
+    <mat-card-subtitle
+      >Para hacerlo, primero debe seleccionar el Cliente al que desea agregar su
+      Vehículo. Luego, debe escribir la patente del vehículo, para
+      identificarla.</mat-card-subtitle
+    >
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="vehicleForm" class="form-booking">
+      <!-- Customer -->
+      <mat-form-field className="formField">
+        <mat-label>Cliente</mat-label>
+        <mat-select formControlName="customerSelect">
+          @for (customer of customers; track customer) {
+          <mat-option [value]="customer.customerId">{{
+            customer.firstName
+          }}</mat-option>
+          }
+        </mat-select>
+        <mat-hint>Seleccione el cliente</mat-hint>
+      </mat-form-field>
+      <mat-form-field class="form-field">
+        <mat-label>Patente</mat-label>
+        <input matInput placeholder="Patente" formControlName="plate" />
+        <mat-hint>P. ej: AAA000</mat-hint>
+      </mat-form-field>
+      <button
+        mat-raised-button
+        type="submit"
+        color="primary"
+        (click)="checkForm()"
+      >
+        Enlazar
+      </button>
+    </form>
+  </mat-card-content>
+</mat-card>
+
+<mat-card>
+  <mat-card-header
+    ><mat-card-title
+      >Vehículos del cliente cargados en la Base de Datos</mat-card-title
+    >
+    <mat-card-subtitle
+      >Para ver los vehículos, primero seleccione de cuál
+      Cliente.</mat-card-subtitle
+    >
+  </mat-card-header>
+  <mat-card-content>
+    <mat-form-field className="formField">
+      <mat-label>Cliente</mat-label>
+      <mat-select (selectionChange)="selectCustomer($event)">
+        @for (customer of customers; track customer) {
+        <mat-option [value]="customer.customerId">{{
+          customer.firstName
+        }}</mat-option>
+        }
+      </mat-select>
+      <mat-hint>Seleccione el cliente</mat-hint>
+    </mat-form-field>
+    <table
+      *ngIf="selectedCustomer && selectedCustomer.vehicles"
+      mat-table
+      [dataSource]="vehicles"
+      class="mat-elevation-z8"
+    >
+      <ng-container matColumnDef="vehicleId">
+        <th mat-header-cell *matHeaderCellDef>#</th>
+        <td mat-cell *matCellDef="let vehicle">{{ vehicle.vehicleId }}</td>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <td mat-cell *matCellDef="let vehicle">
+          <button
+            mat-stroked-button
+            color="warn"
+            (click)="deleteVehicle(vehicle.vehicleId)"
+          >
+            Eliminar
+          </button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="vehiclePlate">
+        <th mat-header-cell *matHeaderCellDef>Patente</th>
+        <td mat-cell *matCellDef="let vehicle">{{ vehicle.vehiclePlate }}</td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </mat-card-content>
+</mat-card>
