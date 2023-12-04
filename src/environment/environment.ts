@@ -1,4 +1,4 @@
 export const environment = {
-  production: true,
-  baseUrl: 'servicio-automotor-back-production.up.railway.app/api/v1',
+  production: false,
+  baseUrl: 'http://localhost:8080/api/v1',
 };
